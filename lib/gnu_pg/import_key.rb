@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './lib/gnu_pg/system_client.rb'
+
 module GnuPG
   class ImportKey
     class Error < StandardError; end
@@ -32,8 +34,8 @@ module GnuPG
     private
 
     def create_key_file
-      raise Error, 'blank key provided' if key.blank?
-      raise Error, 'blank path provided' if path.blank?
+      raise Error, 'blank key provided' if !key || key.empty?
+      raise Error, 'blank path provided' if !key || key.empty?
 
       File.open(path, 'w+') { |f| f.write(key) }
     end
