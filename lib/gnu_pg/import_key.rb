@@ -35,7 +35,7 @@ module GnuPG
 
     def create_key_file
       raise Error, 'blank key provided' if !key || key.empty?
-      raise Error, 'blank path provided' if !key || key.empty?
+      raise Error, 'blank path provided' if !path || path.empty?
 
       File.open(path, 'w+') { |f| f.write(key) }
     end
