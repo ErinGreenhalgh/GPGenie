@@ -9,7 +9,7 @@ describe GnuPG::ImportKey do
   let(:importer) { described_class.call(key: key, path: path) }
   let(:receiver_name) { 'GPGenie' }
   let(:key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:path) { './spec/data/generated_secret_key_file.gpg'}
+  let(:path) { './spec/data/generated_secret_key_file.gpg' }
 
   before(:each) {
     FileUtils.rm_rf(Dir.glob(ENV['GPG_HOMEDIR']), secure: true)
