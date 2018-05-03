@@ -41,7 +41,7 @@ module TestHelpers
   def gnupg_private_key_fingerprint
     @gnupg_private_key_fingerprint ||= begin
       result = available_gnupg_keys
-      return unless result.stdout.present?
+      return unless result.stdout
 
       result.stdout.split("\n")
         &.select { |r| r.include?('Key fingerprint') }
