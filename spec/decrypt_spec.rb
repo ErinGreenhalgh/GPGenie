@@ -4,6 +4,7 @@ require 'fileutils'
 require './spec/test_helpers.rb'
 require './lib/gnu_pg/import_key.rb'
 require './lib/gnu_pg/decrypt.rb'
+require './spec/data/variables.rb'
 
 describe GnuPG::Decrypt do
   include TestHelpers
@@ -14,13 +15,13 @@ describe GnuPG::Decrypt do
       encrypted_file_path: encrypted_file_path
     )
   end
-  let(:passphrase) { 'test-password-123' }
-  let(:decrypted_file_path) { './spec/data/generated_decrypted_file.txt'}
-  let(:encrypted_file_path) {'./spec/data/encrypted_file.gpg'}
+  let(:passphrase) { VARIABLES[:gpg_passphrase] }
+  let(:decrypted_file_path) { VARIABLES[:decrypted_file_path] }
+  let(:encrypted_file_path) { VARIABLES[:encrypted_file_path] }
 
   let(:private_key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:private_key_path) { './spec/data/generated_secret_key_file.gpg' }
-  let(:receiver_name) { 'gpgenie@example.com' }
+  let(:private_key_path) { VARIABLES[:private_key_path] }
+  let(:receiver_name) { VARIABLES[:receiver_name] }
 
   after(:all) do
     FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)

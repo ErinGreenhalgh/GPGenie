@@ -2,6 +2,7 @@
 require 'rspec'
 require 'fileutils'
 require './spec/test_helpers.rb'
+require './spec/data/variables.rb'
 require './lib/gnu_pg/delete_data.rb'
 require './lib/gnu_pg/import_key.rb'
 
@@ -14,9 +15,9 @@ describe GnuPG::DeleteData do
     )
   end
   let(:homedir) { ENV['GPG_HOMEDIR'] }
-  let(:receiver_name) { 'gpgenie@example.com'}
+  let(:receiver_name) { VARIABLES[:receiver_name] }
   let(:private_key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:private_key_path) { './spec/data/generated_secret_key_file.gpg' }
+  let(:private_key_path) { VARIABLES[:private_key_path]  }
     
   before do
     GnuPG::ImportKey.call(key: private_key, path: private_key_path)

@@ -2,17 +2,18 @@
 require 'rspec'
 require 'fileutils'
 require './spec/test_helpers.rb'
+require './spec/data/variables.rb'
 require './lib/gnu_pg/import_key.rb'
 
 describe GnuPG::ImportKey do
   include TestHelpers
   let(:importer) { described_class.call(key: key, path: path) }
-  let(:receiver_name) { 'GPGenie' }
+  let(:receiver_name) { VARIABLES[:receiver_name] }
   let(:key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:path) { './spec/data/generated_secret_key_file.gpg' }
+  let(:path) { VARIABLES[:private_key_path] }
 
   before(:each) {
-    FileUtils.rm_rf(Dir.glob(ENV['GPG_HOMEDIR']), secure: true)
+    FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)
   }
 
   context 'successful' do
