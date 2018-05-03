@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
 require './spec/test_helpers.rb'
