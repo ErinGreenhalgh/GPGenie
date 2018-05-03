@@ -4,11 +4,11 @@ module GnuPG
   class Process
     attr_reader :encrypted_file_path
 
-    DECRYPTED_FILE_PATH = ENV['DECRYPTED_FILE_PATH']
-    PASSPHRASE          = ENV['PGP_PASSPHRASE']
-    PRIVATE_KEY         = Rails.application.secrets.pgp_private_key
-    PRIVATE_KEY_PATH    = ENV['PGP_PRIVATE_KEY_PATH']
-    RECEIVER_NAME       = ENV['RECEIVER_NAME']
+    DECRYPTED_FILE_PATH = ENV.fetch('DECRYPTED_FILE_PATH')
+    PASSPHRASE          = ENV.fetch('PGP_PASSPHRASE')
+    PRIVATE_KEY         = ENV.fetch('PRIVATE_KEY')
+    PRIVATE_KEY_PATH    = ENV.fetch('PGP_PRIVATE_KEY_PATH')
+    RECEIVER_NAME       = ENV.fetch('RECEIVER_NAME')
 
     def self.call(options)
       new(options).call
