@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'dotenv/load'
+require 'rspec'
+require 'fileutils'
+require './spec/data/variables'
+require './spec/test_helpers.rb'
+require './lib/gnu_pg/process.rb'
+require './lib/gnu_pg/import_key.rb'
+require './lib/gnu_pg/decrypt.rb'
+require './lib/gnu_pg/delete_data.rb'
 
 describe GnuPG::Process do
+  include TestHelpers
   let(:processer) do
     described_class.call(encrypted_file_path: encrypted_file_path)
   end
-  let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH'] }
+  let(:encrypted_file_path) { VARIABLES[:encrypted_file_path] }
 
   context 'successful' do
     before do
