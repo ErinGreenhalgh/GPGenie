@@ -27,6 +27,10 @@ describe GnuPG::Decrypt do
       GnuPG::ImportKey.call(key: private_key, path: private_key_path)
       decrypter
     end
+
+    after do
+      FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)
+    end 
     
     it 'stores the decrypted file in the provided filepath' do
       expect(file_exists?(decrypted_file_path)).to eq(true)
@@ -38,6 +42,14 @@ describe GnuPG::Decrypt do
   end
   
   context 'failure' do
+    before do
+      GnuPG::ImportKey.call(key: private_key, path: private_key_path)
+    end
+
+    after do
+      FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)
+    end
+
     context 'with nonexistant encrypted file path' do
       let(:encrypted_file_path) { './wrong.pgp' }
       
@@ -58,7 +70,7 @@ describe GnuPG::Decrypt do
 
     context 'without a private key in gpg' do
       before do
-        clear_gnupg_private_key
+        clear_gnupg_private_key('gpgenie@example.com')
       end
 
       it 'raises an error' do
