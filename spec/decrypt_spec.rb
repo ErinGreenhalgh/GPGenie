@@ -1,8 +1,13 @@
 # frozen_string_literal: true
-
-require 'rails_helper'
+require 'rspec'
+require 'fileutils'
+require './spec/test_helpers.rb'
+require './lib/gnu_pg/import_key.rb'
+require './lib/gnu_pg/decrypt.rb'
+require './lib/gnu_pg/delete_data.rb'
 
 describe GnuPG::Decrypt do
+  include TestHelpers
   let(:decrypter) do
     described_class.call(
       passphrase: passphrase,
@@ -10,43 +15,37 @@ describe GnuPG::Decrypt do
       encrypted_file_path: encrypted_file_path
     )
   end
-  let(:passphrase) { ENV['PGP_PASSPHRASE'] }
-  let(:decrypted_file_path) do
-    Rails.root.join('spec', 'data', 'decryption', 'decrypted.pgp')
-  end
-  let(:encrypted_file_path) do
-    Rails.root.join('spec', 'data', 'encrypted.pgp')
-  end
+  let(:passphrase) { 'test-password-123' }
+  let(:decrypted_file_path) { './spec/data/generated_decrypted_file.txt'}
+  let(:encrypted_file_path) {'./spec/data/encrypted_file.gpg'}
 
-  let(:private_key) { Rails.application.secrets.pgp_private_key }
-  let(:private_key_path) do
-    Rails.root.join('spec', 'data', 'decryption', 'private_key.pgp')
-  end
-
+  let(:private_key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:private_key_path) { './spec/data/generated_secret_key_file.gpg' }
+  
   context 'successful' do
     before do
       GnuPG::ImportKey.call(key: private_key, path: private_key_path)
       decrypter
     end
-
+    
     it 'stores the decrypted file in the provided filepath' do
       expect(file_exists?(decrypted_file_path)).to eq(true)
     end
-
+    
     it 'correctly decrypts the message' do
-      expect(read_zipfile(decrypted_file_path)).to include('Shambhala')
+      expect(File.read(decrypted_file_path)).to include('Hello, GPGenie')
     end
   end
-
+  
   context 'failure' do
     context 'with nonexistant encrypted file path' do
       let(:encrypted_file_path) { './wrong.pgp' }
-
+      
       it 'raises an error' do
         expect { decrypter }.to raise_error(GnuPG::Decrypt::Error, /can't open/)
       end
     end
-
+    
     context 'with wrong passphrase' do
       let(:passphrase) { '' }
 
