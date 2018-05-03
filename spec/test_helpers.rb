@@ -12,7 +12,7 @@ module TestHelpers
     result.success?
   end
 
-  def available_gnupg_keys(receiver_name = ENV['RECEIVER_NAME'])
+  def available_gnupg_keys(receiver_name)
     args = [
       '--homedir',
       ENV['GPG_HOMEDIR'],
@@ -23,8 +23,8 @@ module TestHelpers
     SystemClient.run('gpg', args: args)
   end
 
-  def clear_gnupg_private_key
-    return unless gnupg_private_key_fingerprint
+  def clear_gnupg_private_key(receiver_name)
+    return unless gnupg_private_key_fingerprint(receiver_name)
 
     args = [
       '--homedir',
@@ -32,15 +32,15 @@ module TestHelpers
       '--batch',
       '--yes',
       '--delete-secret-keys',
-      gnupg_private_key_fingerprint,
+      gnupg_private_key_fingerprint(receiver_name),
     ]
 
     SystemClient.run('gpg', args: args)
   end
 
-  def gnupg_private_key_fingerprint
+  def gnupg_private_key_fingerprint(receiver_name)
     @gnupg_private_key_fingerprint ||= begin
-      result = available_gnupg_keys
+      result = available_gnupg_keys(receiver_name)
       return unless result.stdout
 
       result.stdout.split("\n")
