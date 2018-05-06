@@ -3,10 +3,6 @@ module TestHelpers
     File.file?(file_path)
   end
 
-  def delete_file(file_path)
-    File.delete(file_path)
-  end
-
   def gnupg_key_exists?(receiver_name)
     result = available_gnupg_keys(receiver_name)
     result.success?
@@ -23,8 +19,8 @@ module TestHelpers
     SystemClient.run('gpg', args: args)
   end
 
-  def clear_gnupg_private_key(receiver_name)
-    return unless gnupg_private_key_fingerprint(receiver_name)
+  def clear_gnupg_secret_key(receiver_name)
+    return unless gnupg_secret_key_fingerprint(receiver_name)
 
     args = [
       '--homedir',
@@ -32,14 +28,14 @@ module TestHelpers
       '--batch',
       '--yes',
       '--delete-secret-keys',
-      gnupg_private_key_fingerprint(receiver_name),
+      gnupg_secret_key_fingerprint(receiver_name),
     ]
 
     SystemClient.run('gpg', args: args)
   end
 
-  def gnupg_private_key_fingerprint(receiver_name)
-    @gnupg_private_key_fingerprint ||= begin
+  def gnupg_secret_key_fingerprint(receiver_name)
+    @gnupg_secret_key_fingerprint ||= begin
       result = available_gnupg_keys(receiver_name)
       return unless result.stdout
 
