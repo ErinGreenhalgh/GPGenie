@@ -3,15 +3,14 @@ require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
 require './spec/shared/test_helpers.rb'
-require './spec/data/variables.rb'
 require './lib/gnu_pg/import_key.rb'
 
 describe GnuPG::ImportKey do
   include TestHelpers
   let(:importer) { described_class.call(key: key, path: path) }
-  let(:receiver_name) { VARIABLES[:receiver_name] }
+  let(:receiver_name) { ENV['RECEIVER_NAME'] }
   let(:key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:path) { VARIABLES[:private_key_path] }
+  let(:path) { ENV['PGP_PRIVATE_KEY_PATH'] }
 
   before(:each) {
     FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)

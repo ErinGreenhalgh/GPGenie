@@ -3,7 +3,6 @@
 require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
-require './spec/data/variables'
 require './spec/shared/test_helpers.rb'
 require './lib/gnu_pg/process.rb'
 require './lib/gnu_pg/import_key.rb'
@@ -15,7 +14,7 @@ describe GnuPG::Process do
   let(:processer) do
     described_class.call(encrypted_file_path: encrypted_file_path)
   end
-  let(:encrypted_file_path) { VARIABLES[:encrypted_file_path] }
+  let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH']}
 
   context 'successful' do
     before do
