@@ -2,7 +2,7 @@
 require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
-require './spec/test_helpers.rb'
+require './spec/shared/test_helpers.rb'
 require './spec/data/variables.rb'
 require './lib/gnu_pg/delete_data.rb'
 require './lib/gnu_pg/import_key.rb'
