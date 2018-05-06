@@ -10,22 +10,22 @@ describe GnuPG::DeleteData do
   include TestHelpers
   let(:deleter) do
     described_class.call(
-      private_key_path: private_key_path,
+      secret_key_path: secret_key_path,
       receiver_name: receiver_name
     )
   end
   let(:homedir) { ENV['GPG_HOMEDIR'] }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
-  let(:private_key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:private_key_path) { ENV['PGP_PRIVATE_KEY_PATH']  }
+  let(:secret_key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:secret_key_path) { ENV['SECRET_KEY_PATH']  }
     
   before do
-    GnuPG::ImportKey.call(key: private_key, path: private_key_path)
+    GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
     deleter
   end
 
   it 'deletes the private key file' do
-    expect(file_exists?(private_key_path)).to eq(false)
+    expect(file_exists?(secret_key_path)).to eq(false)
   end
 
   it 'deletes the private key' do

@@ -42,7 +42,7 @@ describe GnuPG::Process do
 
     it 'calls GnuPG::DeleteData' do
       expect(GnuPG::DeleteData).to have_received(:call).with(
-        private_key_path: anything,
+        secret_key_path: anything,
         receiver_name: anything
       )
     end

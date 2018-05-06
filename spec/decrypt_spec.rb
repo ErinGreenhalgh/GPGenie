@@ -15,12 +15,12 @@ describe GnuPG::Decrypt do
       encrypted_file_path: encrypted_file_path
     )
   end
-  let(:passphrase) { ENV['PGP_PASSPHRASE'] }
+  let(:passphrase) { ENV['GPG_PASSPHRASE'] }
   let(:decrypted_file_path) { ENV['DECRYPTED_FILE_PATH'] }
   let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH']}
 
-  let(:private_key) { File.read('./spec/data/test_secret_key.gpg') }
-  let(:private_key_path) { ENV['PGP_PRIVATE_KEY_PATH'] }
+  let(:secret_key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:secret_key_path) { ENV['SECRET_KEY_PATH'] }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
 
   after(:all) do
@@ -29,7 +29,7 @@ describe GnuPG::Decrypt do
   
   context 'successful' do
     before do
-      GnuPG::ImportKey.call(key: private_key, path: private_key_path)
+      GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
       decrypter
     end
     
@@ -44,7 +44,7 @@ describe GnuPG::Decrypt do
   
   context 'failure' do
     before do
-      GnuPG::ImportKey.call(key: private_key, path: private_key_path)
+      GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
     end
     
     context 'with nonexistant encrypted file path' do
@@ -67,7 +67,7 @@ describe GnuPG::Decrypt do
 
     context 'without a private key in gpg' do
       before do
-        clear_gnupg_private_key(receiver_name)
+        clear_gnupg_secret_key(receiver_name)
       end
 
       it 'raises an error' do

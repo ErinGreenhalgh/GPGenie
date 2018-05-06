@@ -4,27 +4,27 @@ module GnuPG
   class DeleteData
     GNUPG_HOME_DIR = ENV.fetch('GPG_HOMEDIR')
 
-    attr_reader :private_key_path,
+    attr_reader :secret_key_path,
                 :receiver_name
 
     def self.call(options)
       new(options).call
     end
 
-    def initialize(private_key_path:, receiver_name:)
-      @private_key_path = private_key_path
+    def initialize(secret_key_path:, receiver_name:)
+      @secret_key_path = secret_key_path
       @receiver_name = receiver_name
     end
 
     def call
-      delete_private_key_file
+      delete_secret_key_file
       delete_homedir
     end
 
     private
 
-    def delete_private_key_file
-      FileUtils.rm(private_key_path)
+    def delete_secret_key_file
+      FileUtils.rm(secret_key_path)
     end
 
     def delete_homedir
