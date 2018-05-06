@@ -19,7 +19,7 @@ describe GnuPG::Decrypt do
   let(:decrypted_file_path) { ENV['DECRYPTED_FILE_PATH'] }
   let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH']}
 
-  let(:secret_key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:secret_key) { ENV['SECRET_KEY'] }
   let(:secret_key_path) { ENV['SECRET_KEY_PATH'] }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
 

@@ -16,7 +16,7 @@ describe GnuPG::DeleteData do
   end
   let(:homedir) { ENV['GPG_HOMEDIR'] }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
-  let(:secret_key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:secret_key) { ENV['SECRET_KEY'] }
   let(:secret_key_path) { ENV['SECRET_KEY_PATH']  }
     
   before do

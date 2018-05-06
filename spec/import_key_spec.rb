@@ -9,7 +9,7 @@ describe GnuPG::ImportKey do
   include TestHelpers
   let(:importer) { described_class.call(key: key, path: path) }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
-  let(:key) { File.read('./spec/data/test_secret_key.gpg') }
+  let(:key) { ENV['SECRET_KEY'] }
   let(:path) { ENV['SECRET_KEY_PATH'] }
 
   before(:each) {
