@@ -4,11 +4,11 @@ module GnuPG
   class Process
     attr_reader :encrypted_file_path
 
-    DECRYPTED_FILE_PATH = ENV['DECRYPTED_FILE_PATH']
-    PASSPHRASE          = ENV['PGP_PASSPHRASE']
-    PRIVATE_KEY         = Rails.application.secrets.pgp_private_key
-    PRIVATE_KEY_PATH    = ENV['PGP_PRIVATE_KEY_PATH']
-    RECEIVER_NAME       = ENV['RECEIVER_NAME']
+    DECRYPTED_FILE_PATH = ENV.fetch('DECRYPTED_FILE_PATH')
+    PASSPHRASE          = ENV.fetch('GPG_PASSPHRASE')
+    SECRET_KEY         = ENV.fetch('SECRET_KEY')
+    SECRET_KEY_PATH    = ENV.fetch('SECRET_KEY_PATH')
+    RECEIVER_NAME       = ENV.fetch('RECEIVER_NAME')
 
     def self.call(options)
       new(options).call
@@ -33,8 +33,8 @@ module GnuPG
 
     def import_key
       GnuPG::ImportKey.call(
-        key: PRIVATE_KEY,
-        path: PRIVATE_KEY_PATH
+        key: SECRET_KEY,
+        path: SECRET_KEY_PATH
       )
     end
 
@@ -48,7 +48,7 @@ module GnuPG
 
     def delete_data
       GnuPG::DeleteData.call(
-        private_key_path: PRIVATE_KEY_PATH,
+        secret_key_path: SECRET_KEY_PATH,
         receiver_name: RECEIVER_NAME
       )
     end

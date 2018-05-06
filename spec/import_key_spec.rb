@@ -1,14 +1,24 @@
 # frozen_string_literal: true
-
-require 'rails_helper'
+require 'dotenv/load'
+require 'rspec'
+require 'fileutils'
+require './spec/shared/test_helpers.rb'
+require './lib/gnu_pg/import_key.rb'
 
 describe GnuPG::ImportKey do
+  include TestHelpers
   let(:importer) { described_class.call(key: key, path: path) }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
-  let(:key) { Rails.application.secrets.pgp_private_key }
-  let(:path) do
-    Rails.root.join('spec', 'data', 'decryption', 'private_key.pgp')
-  end
+  let(:key) { ENV['SECRET_KEY'] }
+  let(:path) { ENV['SECRET_KEY_PATH'] }
+
+  before(:each) {
+    clear_gpg_keychain
+  }
+  
+  after(:each) {
+    remove_generated_files([path])
+  }
 
   context 'successful' do
     context 'with a key and path provided' do

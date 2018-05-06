@@ -1,12 +1,20 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'dotenv/load'
+require 'rspec'
+require 'fileutils'
+require './spec/shared/test_helpers.rb'
+require './lib/gnu_pg/process.rb'
+require './lib/gnu_pg/import_key.rb'
+require './lib/gnu_pg/decrypt.rb'
+require './lib/gnu_pg/delete_data.rb'
 
 describe GnuPG::Process do
+  include TestHelpers
   let(:processer) do
     described_class.call(encrypted_file_path: encrypted_file_path)
   end
-  let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH'] }
+  let(:encrypted_file_path) { ENV['ENCRYPTED_FILE_PATH']}
 
   context 'successful' do
     before do
@@ -16,6 +24,10 @@ describe GnuPG::Process do
 
       processer
     end
+
+    after(:each) do 
+      remove_generated_files([ENV['DECRYPTED_FILE_PATH']])
+    end 
 
     it 'calls GnuPG::ImportKey' do
       expect(GnuPG::ImportKey).to have_received(:call).with(
@@ -34,7 +46,7 @@ describe GnuPG::Process do
 
     it 'calls GnuPG::DeleteData' do
       expect(GnuPG::DeleteData).to have_received(:call).with(
-        private_key_path: anything,
+        secret_key_path: anything,
         receiver_name: anything
       )
     end
