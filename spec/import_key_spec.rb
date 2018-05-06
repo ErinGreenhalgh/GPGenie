@@ -13,7 +13,11 @@ describe GnuPG::ImportKey do
   let(:path) { ENV['SECRET_KEY_PATH'] }
 
   before(:each) {
-    FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)
+    clear_gpg_keychain
+  }
+  
+  after(:each) {
+    remove_generated_files([path])
   }
 
   context 'successful' do

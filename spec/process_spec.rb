@@ -25,6 +25,10 @@ describe GnuPG::Process do
       processer
     end
 
+    after(:each) do 
+      remove_generated_files([ENV['DECRYPTED_FILE_PATH']])
+    end 
+
     it 'calls GnuPG::ImportKey' do
       expect(GnuPG::ImportKey).to have_received(:call).with(
         key: anything,

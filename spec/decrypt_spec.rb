@@ -23,8 +23,12 @@ describe GnuPG::Decrypt do
   let(:secret_key_path) { ENV['SECRET_KEY_PATH'] }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
 
-  after(:all) do
-    FileUtils.rm_rf(ENV['GPG_HOMEDIR'], secure: true)
+  before(:each) do
+    clear_gpg_keychain
+  end 
+  
+  after(:each) do 
+    remove_generated_files([secret_key_path, decrypted_file_path])
   end 
   
   context 'successful' do
