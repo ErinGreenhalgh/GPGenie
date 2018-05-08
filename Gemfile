@@ -1,4 +1,4 @@
 group :test do 
-  gem 'dotenv-rails'
+  gem 'dotenv'
   gem 'rspec'
 end 
