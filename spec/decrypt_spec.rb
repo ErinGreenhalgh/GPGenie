@@ -3,10 +3,10 @@ require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
 require './spec/shared/test_helpers.rb'
-require './lib/gnu_pg/import_key.rb'
-require './lib/gnu_pg/decrypt.rb'
+require './lib/gpgenie/import_key.rb'
+require './lib/gpgenie/decrypt.rb'
 
-describe GnuPG::Decrypt do
+describe GPGenie::Decrypt do
   include TestHelpers
   let(:decrypter) do
     described_class.call(
@@ -33,7 +33,7 @@ describe GnuPG::Decrypt do
   
   context 'successful' do
     before do
-      GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
+      GPGenie::ImportKey.call(key: secret_key, path: secret_key_path)
       decrypter
     end
     
@@ -48,14 +48,14 @@ describe GnuPG::Decrypt do
   
   context 'failure' do
     before do
-      GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
+      GPGenie::ImportKey.call(key: secret_key, path: secret_key_path)
     end
     
     context 'with nonexistant encrypted file path' do
       let(:encrypted_file_path) { './wrong.pgp' }
       
       it 'raises an error' do
-        expect { decrypter }.to raise_error(GnuPG::Decrypt::Error, /can't open/)
+        expect { decrypter }.to raise_error(GPGenie::Decrypt::Error, /can't open/)
       end
     end
     
@@ -64,7 +64,7 @@ describe GnuPG::Decrypt do
 
       it 'raises an error' do
         expect { decrypter }.to raise_error(
-          GnuPG::Decrypt::Error, /bad passphrase/
+          GPGenie::Decrypt::Error, /bad passphrase/
         )
       end
     end
@@ -76,7 +76,7 @@ describe GnuPG::Decrypt do
 
       it 'raises an error' do
         expect { decrypter }.to raise_error(
-          GnuPG::Decrypt::Error, /secret key not available/
+          GPGenie::Decrypt::Error, /secret key not available/
         )
       end
     end

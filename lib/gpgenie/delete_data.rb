@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GnuPG
+module GPGenie
   class DeleteData
     GNUPG_HOME_DIR = ENV.fetch('GPG_HOMEDIR')
 

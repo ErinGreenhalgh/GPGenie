@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GnuPG
+module GPGenie
   class Decrypt
     class Error < StandardError; end
 
@@ -24,7 +24,7 @@ module GnuPG
       result = SystemClient.run('gpg', args: args)
       return result if result.success?
       error_message = "gpg decryption failed with error:#{result.stderr.inspect}"
-      raise GnuPG::Decrypt::Error, error_message
+      raise GPGenie::Decrypt::Error, error_message
     end
 
     private

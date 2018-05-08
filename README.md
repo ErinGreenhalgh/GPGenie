@@ -29,7 +29,7 @@ You can see examples of the required ENV vars in my `.env` file, which is used i
 ### Usage
 After configuring the environment variables, you can run the program like this:
 ```
-GnuPG::Process.call('path/to/encrypted_file.gpg')
+GPGenie::Process.call('path/to/encrypted_file.gpg')
 ```
 
 ### Running the tests
