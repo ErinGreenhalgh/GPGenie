@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'gpgenie/decrypt'
 require 'gpgenie/delete_data'
 require 'gpgenie/import_key'
