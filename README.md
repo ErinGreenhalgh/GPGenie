@@ -21,15 +21,16 @@ GPGenie takes a number of environment variables needed to import your key and de
 - `GPG_HOMEDIR`: the full path to the location where GPG will create its config directory, `.gnupg`. This houses the GPG keychain. 
 - `GPG_PASSPHRASE`: the password that protects the secret key
 - `RECEIVER_NAME`: the name of the owner of the public and secret key pair
-- `SECRET_KEY_PATH`: the path to the file that GPG will generate to store your secret key. GPG needs to read the key from a file in order to import it into the keychain. 
 - `SECRET_KEY`: the key itself, used to decrypt the file 
+- `SECRET_KEY_PATH`: the path to the file that GPG will generate to store your secret key. GPG needs to read the key from a file in order to import it into the keychain. 
 
 You can see examples of the required ENV vars in my `.env` file, which is used in the test. All ENV vars are listed except the `GPG_HOMEDIR`. 
 
 ### Usage
 After configuring the environment variables, you can run the program like this:
-```
-GPGenie::Process.call('path/to/encrypted_file.gpg')
+``` ruby
+require 'gpgenie.rb' # or relative path to this file
+GPGenie::Process.call(encrypted_file_path: ENV['ENCRYPTED_FILE_PATH'])
 ```
 
 ### Running the tests
