@@ -3,10 +3,10 @@ require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
 require './spec/shared/test_helpers.rb'
-require './lib/gnu_pg/delete_data.rb'
-require './lib/gnu_pg/import_key.rb'
+require './lib/gpgenie/delete_data.rb'
+require './lib/gpgenie/import_key.rb'
 
-describe GnuPG::DeleteData do
+describe GPGenie::DeleteData do
   include TestHelpers
   let(:deleter) do
     described_class.call(
@@ -20,7 +20,7 @@ describe GnuPG::DeleteData do
   let(:secret_key_path) { ENV['SECRET_KEY_PATH']  }
     
   before do
-    GnuPG::ImportKey.call(key: secret_key, path: secret_key_path)
+    GPGenie::ImportKey.call(key: secret_key, path: secret_key_path)
     deleter
   end
 

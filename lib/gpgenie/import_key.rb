@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require './lib/gnu_pg/system_client.rb'
+require './lib/gpgenie/system_client.rb'
 
-module GnuPG
+module GPGenie
   class ImportKey
     class Error < StandardError; end
 
@@ -28,7 +28,7 @@ module GnuPG
       return result if result.success?
       return result if result.stderr.include? NON_FATAL_ERROR
       error_message = "gpg failed with error: #{result.stderr.inspect}"
-      raise GnuPG::ImportKey::Error, error_message
+      raise GPGenie::ImportKey::Error, error_message
     end
 
     private

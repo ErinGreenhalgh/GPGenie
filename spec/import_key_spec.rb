@@ -3,9 +3,9 @@ require 'dotenv/load'
 require 'rspec'
 require 'fileutils'
 require './spec/shared/test_helpers.rb'
-require './lib/gnu_pg/import_key.rb'
+require './lib/gpgenie/import_key.rb'
 
-describe GnuPG::ImportKey do
+describe GPGenie::ImportKey do
   include TestHelpers
   let(:importer) { described_class.call(key: key, path: path) }
   let(:receiver_name) { ENV['RECEIVER_NAME'] }
@@ -35,12 +35,12 @@ describe GnuPG::ImportKey do
 
     context 'with a key already imported' do
       before do
-        allow(GnuPG::ImportKey::Error).to receive(:new)
+        allow(GPGenie::ImportKey::Error).to receive(:new)
       end
 
       it 'does not raise an error' do
         importer
-        expect(GnuPG::ImportKey::Error).not_to have_received(:new)
+        expect(GPGenie::ImportKey::Error).not_to have_received(:new)
       end
     end
   end
@@ -50,7 +50,7 @@ describe GnuPG::ImportKey do
       let(:key) { '' }
 
       it 'raises an error' do
-        expect { importer }.to raise_error(GnuPG::ImportKey::Error, /blank key/)
+        expect { importer }.to raise_error(GPGenie::ImportKey::Error, /blank key/)
       end
     end
 
@@ -59,7 +59,7 @@ describe GnuPG::ImportKey do
 
       it 'raises an error' do
         expect { importer }.to raise_error(
-          GnuPG::ImportKey::Error, /blank path/
+          GPGenie::ImportKey::Error, /blank path/
         )
       end
     end
@@ -69,7 +69,7 @@ describe GnuPG::ImportKey do
 
       it 'raises an error' do
         expect { importer }.to raise_error(
-          GnuPG::ImportKey::Error, /no valid OpenPGP data/
+          GPGenie::ImportKey::Error, /no valid OpenPGP data/
         )
       end
     end

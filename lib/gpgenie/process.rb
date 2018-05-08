@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GnuPG
+module GPGenie
   class Process
     attr_reader :encrypted_file_path
 
@@ -32,14 +32,14 @@ module GnuPG
     private
 
     def import_key
-      GnuPG::ImportKey.call(
+      GPGenie::ImportKey.call(
         key: SECRET_KEY,
         path: SECRET_KEY_PATH
       )
     end
 
     def decrypt_file
-      GnuPG::Decrypt.call(
+      GPGenie::Decrypt.call(
         passphrase: PASSPHRASE,
         encrypted_file_path: encrypted_file_path,
         decrypted_file_path: DECRYPTED_FILE_PATH
@@ -47,7 +47,7 @@ module GnuPG
     end
 
     def delete_data
-      GnuPG::DeleteData.call(
+      GPGenie::DeleteData.call(
         secret_key_path: SECRET_KEY_PATH,
         receiver_name: RECEIVER_NAME
       )
